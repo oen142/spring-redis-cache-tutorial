@@ -3,6 +3,7 @@ package com.wani.springrediscachetutorial.user.ui;
 import com.wani.springrediscachetutorial.common.CacheKey;
 import com.wani.springrediscachetutorial.user.application.UserService;
 import com.wani.springrediscachetutorial.user.entity.User;
+import com.wani.springrediscachetutorial.user.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -20,21 +21,21 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public User postUser(@RequestBody User user) {
-        return userService.save(user);
+    public User postUser(@RequestBody UserRequest request) {
+        return userService.save(request);
     }
 
-    @CachePut()
+    @CachePut(value = CacheKey.USER, key = "#request.username")
     @PutMapping("/user")
     @ResponseBody
-    public User putUser(@RequestBody User user) {
-        return userService.save(user);
+    public User putUser(@RequestBody UserRequest request) {
+        return userService.save(request);
     }
 
-    @CacheEvict(value = CacheKey.USER , key = "#id")
+    @CacheEvict(value = CacheKey.USER, key = "#id")
     @DeleteMapping("/user/{id}")
     @ResponseBody
-    public boolean deleteUser(@PathVariable Long id){
+    public boolean deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
         return true;
     }
