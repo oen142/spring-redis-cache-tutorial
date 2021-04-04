@@ -1,5 +1,6 @@
 package com.wani.springrediscachetutorial.user.entity;
 
+import com.wani.springrediscachetutorial.common.UserLevel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,8 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    public UserLevel getUserLevel() {
+        return UserLevel.HOST;
+    }
 }
